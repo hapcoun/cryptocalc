@@ -32,7 +32,7 @@ docker-compose up -d
 ### 4. Выполните миграции для создания необходимых таблиц в базе данных:
 
 ```bash
-docker-compose exec app php yii migrate
+docker-compose exec php yii migrate
 ```
 
 ## Методы API
