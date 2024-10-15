@@ -13,15 +13,33 @@ $config = [
     ],
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'qNg3bLSE2rdiXqnFVASBIUluz5J6onB8',
+            'parsers' => [
+                'application/json' => \yii\web\JsonParser::class,
+            ],
+            'cookieValidationKey' => 'AzZcL5DLXdMumTvSjFzV6aC-1J9z_T_r',
+        ],
+        'response' => [
+            'format' => yii\web\Response::FORMAT_JSON,
+        ],
+        'redis' => [
+            'class' => \yii\redis\Connection::class,
+            'hostname' => 'redis',
+            'port' => 6379,
+            'database' => 0,
         ],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => \yii\redis\Cache::class,
+            'redis' => [
+                'hostname' => 'redis',
+                'port' => 6379,
+                'database' => 0,
+            ],
         ],
         'user' => [
             'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
+            'enableAutoLogin' => false,
+            'enableSession' => false,
+            'loginUrl' => null,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -42,14 +60,17 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
+            'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
+                'GET,HEAD cryptocurrencies' => 'cryptocurrency/index',
+                'GET,HEAD cryptocurrencies/<symbol:\w+>' => 'cryptocurrency/view',
+                'POST cryptocurrencies/calculate' => 'cryptocurrency/calculate',
+                'PUT cryptocurrencies/update' => 'cryptocurrency/update',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];

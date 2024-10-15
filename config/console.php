@@ -14,8 +14,19 @@ $config = [
         '@tests' => '@app/tests',
     ],
     'components' => [
+        'redis' => [
+            'class' => \yii\redis\Connection::class,
+            'hostname' => 'redis',
+            'port' => 6379,
+            'database' => 0,
+        ],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => \yii\redis\Cache::class,
+            'redis' => [
+                'hostname' => 'redis',
+                'port' => 6379,
+                'database' => 0,
+            ],
         ],
         'log' => [
             'targets' => [
